@@ -78,9 +78,6 @@ python --version
 pip freeze | grep Flask
 ```
 
-## 📜 License
-This project is **open-source** under the MIT License.
-
 ---
 🙌 **Contributions are welcome!** Feel free to fork the repo and submit a PR.
 
