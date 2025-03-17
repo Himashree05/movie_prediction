@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendation System</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        async function getRecommendations() {
+            let movie_name = document.getElementById("movieInput").value;
+            let output = document.getElementById("output");
+
+            if (!movie_name) {
+                output.innerHTML = "<p class='error'>Please enter a movie name!</p>";
+                return;
+            }
+
+            let response = await fetch("http://127.0.0.1:5000/recommend", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ movie_name: movie_name })
+            });
+
+            let result = await response.json();
+
+            if (result.recommended_movies) {
+                output.innerHTML = "<h3>Recommended Movies:</h3><ul class='movie-list'>" + 
+                    result.recommended_movies.map(movie => `<li>${movie}</li>`).join("") + "</ul>";
+            } else {
+                output.innerHTML = "<p class='error'>No recommendations found.</p>";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 Movie Recommendation System 🎥</h1>
+        <p>Enter a movie name and get similar movie recommendations!</p>
+        <input type="text" id="movieInput" placeholder="Enter movie name...">
+        <button onclick="getRecommendations()">Get Recommendations</button>
+        <div id="output"></div>
+    </div>
+</body>
+</html>
